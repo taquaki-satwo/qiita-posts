@@ -13,11 +13,11 @@
 人の書いたコードに「いいね」やForkができたり、ブログやQiitaにも貼り付けることができるのでSNS的側面が強いです。
 Babelや主要なフロントエンドライブラリ（自作ライブラリも可）、CSSプリプロセッサ、HTMLテンプレートエンジンがオプションで選べるようになっているため開発環境を構築せずにコードを試せます。
 
-<!-- img -->
+<img width="1089" alt="img01.png" src="https://qiita-image-store.s3.amazonaws.com/0/45634/987287dd-ad9a-ccdd-387a-9b1b14088d26.png">
 
 使い方はこちらが参考になります。
 
-[codepenでウェブ開発入門 - Qiita](https://qiita.com/InoueDaiki/items/1ee988d8e1f43bc205de)
+> [codepenでウェブ開発入門 - Qiita](https://qiita.com/InoueDaiki/items/1ee988d8e1f43bc205de)
 
 ## Gist
 
@@ -28,7 +28,7 @@ GitHubはプロジェクト（ディレクトリ）を管理するものです�
 
 こちらの記事が参考になります。
 
-[GitHubについてもう少し知ってみる。その5（Gistでお手軽コード管理）](http://www.paka3.net/github05/)
+> [GitHubについてもう少し知ってみる。その5（Gistでお手軽コード管理）](http://www.paka3.net/github05/)
 
 ## Cacher
 
@@ -36,7 +36,12 @@ GitHubはプロジェクト（ディレクトリ）を管理するものです�
 
 旧サービス名GistBox。コードスニペット管理ツールです。
 100以上の言語をサポートし、Gistとの連携、チーム共有などの機能があります。
-メーラーのようなUIやラベル、言語別での管理、検索をすることができます。
+メーラーのようなUIやラベル、言語別での管理、検索ができます。
+Webアプリケーションの他にデスクトップアプリがあります。
+
+<img width="1055" alt="img02.png" src="https://qiita-image-store.s3.amazonaws.com/0/45634/a0991e3b-f70b-11c2-8416-5e120b7fdbdb.png">
+
+ぶっちゃけて言うとCodePenだけでスニペット管理はできるのですが、動作が軽快なのとコードの見やすさや検索のしやすさはCacherの方が優れていると思います。
 
 # サービスの連携
 
@@ -50,34 +55,23 @@ GitHubはプロジェクト（ディレクトリ）を管理するものです�
 CodePen上でCreateからNew Penを選択しエディタ画面を開きコードを書きます。
 書き終わったら右下の `Export` から `Save as GitHub Gist` を選択します。
 
-<!-- img -->
+<img width="1181" alt="img03.png" src="https://qiita-image-store.s3.amazonaws.com/0/45634/c75d9e25-c340-e7e0-b0ca-b9f09d0680c2.png">
 
 別ウィンドウでGistの画面が開きます。
-概要が書かれたMarkdown、HTML、CSS、JSそれと読み込んだライブラリのリンクが出力されました。
 
-<!-- img -->
+<img width="1045" alt="img04.png" src="https://qiita-image-store.s3.amazonaws.com/0/45634/9fc3df37-61fc-1d55-7640-65036d1b1fa5.png">
+
+概要が書かれたMarkdown、HTML、CSS、JS、それと読み込んだライブラリのリンクが出力されました。
 
 Cacherアプリを開いてみます。
 
-<!-- img -->
+<img width="741" alt="img05.png" src="https://qiita-image-store.s3.amazonaws.com/0/45634/8acc2262-89c8-cb3d-6166-c3ba53b2a8b3.png">
 
 自動でコードが同期されています。
 
 ## コードの編集
 
-保存されたコードはCodePen、Gist、Cacherのどこからでも編集することができます。しかし、Gist、Cacher間は同期していますが、CodePen、Gist間はCodePenからの出力のみで一方通行です。
+保存されたコードはCodePen、Gist、Cacherのどこからでも編集することができます。しかし、Gist、Cacher間は同期していますが、CodePen、Gist間はCodePenからの出力のみで一方通行です。なので、3つのサービスでコードを揃えたい場合はCodepenで編集後 `Save as GitHub Gist` でGistを上書きする必要があります。
 
-このように、CodePenでコードを試す -> Gist に保存する -> Cacherから参照する。の流れで自作スニペット集を活用すると便利。という話でした。
-
-　
-
-
-
-
-
-
-
-
-
-
+以上、CodePenでコードを試す -> Gist に保存する -> Cacherから参照する。の流れで自作スニペット集を活用すると便利。という話でした。
 
