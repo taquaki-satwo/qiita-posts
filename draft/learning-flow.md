@@ -1,17 +1,18 @@
-# Flow を速攻で学ぶ
+# 速攻で Flow の書き方を学ぶ
 
-Flowのドキュメントを速攻で読んで学んだまとめ。
+Flowの型注釈に関するドキュメントを速攻で読んで、速攻でまとめて、速攻で書き方を学びました。
+https://flow.org/en/docs/types/
 
-https://flow.org/en/docs/
+そこそこ時間かかりました。
 
-## Flowを使うための準備
+## まずはFlowを使うための準備
 
-### 1. インストール
+### インストール
 
 Flowのインストール方法はこちら
 https://flow.org/en/docs/install/
 
-### 2. 初期化
+### 初期化
 
 設定ファイル `.flowconfig` を作成
 
@@ -19,7 +20,7 @@ https://flow.org/en/docs/install/
 flow init
 ```
 
-### 3. バックグランドプロセスで実行
+### バックグランドプロセスで実行
 
 ```
 flow status
@@ -28,7 +29,7 @@ flow status
 flow stop
 ```
 
-### 4. 監視ファイルを設定
+### 監視ファイルを設定
 
 JavaScriptファイルのファイルの先頭に以下を記述する。
 
@@ -36,7 +37,7 @@ JavaScriptファイルのファイルの先頭に以下を記述する。
 // @flow
 ```
 
-### 5. コードをチェックする
+### コードをチェックする
 
 ```
 # flow status と同じ動作
@@ -48,17 +49,19 @@ flow
 ブラウザで動作確認
 https://flow.org/try
 
+
 ## 型注釈
 
+ここから本題。  
 基本の書き方
 
 ```
 x: 型
 ```
 
-### プリミティブ型
+### 1. プリミティブ型
 
-JavaScriptのプリミティブ型は以下
+JavaScriptのプリミティブ型は以下。
 
 * Booleans
 * Strings
@@ -83,7 +86,7 @@ method(new Number(1));
 
 オブジェクトや配列は文字列化してから連結する。
 
-```
+```:javascript
 // エラー
 "foo" + {};
 "foo" + [];
@@ -93,3 +96,211 @@ method(new Number(1));
 "foo" + [].toString();
 "" + JSON.stringify({});
 ```
+
+#### オブジェクトのオプションプロパティ
+
+オブジェクトのプロパティをオプション（= 省略可能）にする。
+
+```:javascript
+function method(x: {y?: string}) {...}
+
+// 動作する
+method({y: undefined});
+method({});
+
+// しかし、nullはエラーになる
+method({y: null});
+```
+
+#### 関数のオプション引数
+
+```:javascript
+function method(x?: string) {...}
+
+// 動作する
+method(undefined);
+method();
+
+// しかし、nullはエラーになる
+method(null);
+```
+
+#### デフォルト引数
+
+```:javascript
+function method(x: string = 'foo') {...}
+
+// 動作する
+method(undefined);
+method();
+
+// しかし、nullはエラーになる
+method(null);
+```
+
+### 2. リテラル型
+
+以下のリテラル値で型を指定することができる。
+
+* `true` や　`false` のようなBooleans
+* `3.14` のようなNumbers
+* `"foo"` のようなStrings
+
+```:javascript
+function method(x: 1) {...}
+
+// 動作する
+method(1);
+
+// エラー
+method(2);
+```
+
+### 3. Mixed型
+
+未知の型を許容する型。
+
+```:javascript
+function method(x: mixed) {...}
+
+// すべて動作する
+method('foo');
+method(1);
+method(null);
+method({});
+```
+
+でも型を特定する処理をいれないとエラーになる。
+
+```:javascript
+function method(x: mixed) {
+  return x + ''; // 型を特定していないのでエラー
+}
+
+function method(x: mixed) {
+  if (typeof x === 'string') {
+    return '' + x; // 型を特定しているので動く
+  } else {
+    return '';
+  }
+}
+```
+
+### 3. Any型
+
+型チェックを動作させないようにできる。
+ランタイムエラーになりそうな記述でさえ通してしまうようになるので、可能な限り使用を控えたほうが良いとのこと。  
+また、any型のオブジェクトを与えた場合、そのオブジェクトのプロパティや処理結果もany型と解釈されるようなので、適切にキャストしてあげないとコードがどんどんany型に侵食される。
+
+```:javascript
+function fn(obj: any) /* 返り値がany型になっちゃう */ {
+  let foo /* プロパティもany型 */ = obj.foo;
+  let bar /* 演算結果もany型 */ = foo * 2;
+  return bar;
+}
+
+let bar /* 外に漏洩したany型 */ = fn({ foo: 2 });
+let baz /* とまらないany型 */ = "baz:" + bar;
+```
+
+```
+function fn(obj: any) /* number型と推論される */ {
+  let foo: number = obj.foo; // キャストしてにany型を食い止める
+  let bar /* number型と推論される */ = foo * 2;
+  return bar;
+}
+
+let bar /* number型と推論される any型の進行を防げた */ = fn({ foo: 2 });
+let baz /* string型と推論される */ = "baz:" + bar;
+```
+
+### 4. Maybe型
+
+nullやundefinedを許容する場合 `?` を型の頭につける。
+
+```:javascript
+function method(x: ?number) {...}
+
+// すべて動作する
+method(1);
+method(null);
+method(undefined);
+method();
+```
+
+Maybe型使用時のnullチェック
+
+```:javascript
+function method(x: ?number) {
+  if (x !== null && x !== undefined) {
+    ...
+  }
+}
+
+function method(x: ?number) {
+  if (x != null) {
+    ...
+  }
+}
+
+function method(x: ?number) {
+  if (typeof x === 'number')  {
+    ...
+  }
+}
+```
+
+### 5. 変数型
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
