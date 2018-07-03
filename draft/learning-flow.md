@@ -56,7 +56,7 @@ https://flow.org/try
 基本の書き方
 
 ```
-x: 型
+変数や引数や関数: 型
 ```
 
 ### 1. プリミティブ型
@@ -74,11 +74,15 @@ JavaScriptのプリミティブ型は以下。
 
 ```:javascript
 // リテラル -> 小文字
-function method(x: number) {...}
+function method(x: number)  {
+  // ...
+}
 method(1);
 
 // グローバルオブジェクト -> 頭文字大文字
-function method(x: Number) {...}
+function method(x: Number) {
+  // ...
+}
 method(new Number(1));
 ``` 
 
@@ -102,7 +106,9 @@ method(new Number(1));
 オブジェクトのプロパティをオプション（= 省略可能）にする。
 
 ```:javascript
-function method(x: {y?: string}) {...}
+function method(x: {y?: string}) {
+  // ...
+}
 
 // 動作する
 method({y: undefined});
@@ -115,7 +121,9 @@ method({y: null});
 #### 関数のオプション引数
 
 ```:javascript
-function method(x?: string) {...}
+function method(x?: string)  {
+  // ...
+}
 
 // 動作する
 method(undefined);
@@ -128,7 +136,9 @@ method(null);
 #### デフォルト引数
 
 ```:javascript
-function method(x: string = 'foo') {...}
+function method(x: string = 'foo')  {
+  // ...
+}
 
 // 動作する
 method(undefined);
@@ -147,7 +157,9 @@ method(null);
 * `"foo"` のようなStrings
 
 ```:javascript
-function method(x: 1) {...}
+function method(x: 1) {
+  // ...
+}
 
 // 動作する
 method(1);
@@ -161,7 +173,9 @@ method(2);
 未知の型を許容する型。
 
 ```:javascript
-function method(x: mixed) {...}
+function method(x: mixed) {
+  // ...
+}
 
 // すべて動作する
 method('foo');
@@ -210,7 +224,7 @@ function fn(obj: any) /* number型と推論される */ {
   return bar;
 }
 
-let bar /* number型と推論される any型の進行を防げた */ = fn({ foo: 2 });
+let bar /* number型と推論される */ = fn({ foo: 2 });
 let baz /* string型と推論される */ = "baz:" + bar;
 ```
 
@@ -233,26 +247,112 @@ Maybe型使用時のnullチェック
 ```:javascript
 function method(x: ?number) {
   if (x !== null && x !== undefined) {
-    ...
+    // ...
   }
 }
 
 function method(x: ?number) {
   if (x != null) {
-    ...
+    // ...
   }
 }
 
 function method(x: ?number) {
   if (typeof x === 'number')  {
-    ...
+    // ...
   }
 }
 ```
 
-### 5. 変数型
+### 5. 変数の型
 
+```
+const a: number = 1;
+let b: string = '2';
+```
 
+変数の再代入時にFlowは型推論してくれる。
+
+```
+let x = 1;
+x = '1';
+
+// 動作する
+let y: string = x;
+```
+
+### 6. 関数の型
+
+#### 関数宣言
+
+```
+function method(str: string, bool?: boolean, ...nums: Array<number>): void {
+  // ...
+}
+```
+
+#### アローファンクション
+
+```
+let method = (str: string, bool?: boolean, ...nums: Array<number>): void => {
+  // ...
+};
+```
+
+#### 関数型
+
+関数そのものを型にできる。以下はコールバックで使う例。
+
+```
+function method(callback: (error: Error | null, value: string | null) => void) {
+  // ...
+}
+```
+
+#### 可変長引数
+
+可変長引数はArray型じゃないとだめ。
+
+```
+function method(...args: Array<number>) {
+  // ...
+}
+```
+
+#### 述語関数
+
+返り値をtrueまたはfalseで返す関数を述語関数と呼ぶ。  
+`%checks` 構文を使うそうです。
+
+```
+// これだとエラー
+function isString(x): boolean { 
+  return typeof x === 'string';
+}
+
+function method(x: ?string): string {
+  if (isString(x)) {
+     return x;
+   } else {
+     return '';
+   }
+}
+```
+
+```
+// これだと動く
+function isString(x): boolean %checks {
+  return typeof x === 'string';
+}
+
+function method(x: ?string): string {
+  if (isString(x)) {
+     return x;
+   } else {
+     return '';
+   }
+}
+```
 
 
 
