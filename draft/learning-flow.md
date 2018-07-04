@@ -354,11 +354,26 @@ function method(x: ?string): string {
 }
 ```
 
+### 7. オブジェクトの型指定
 
+```
+var obj: {
+  x: string,
+  y: number,
+  z: boolean
+} = {
+  x: "1",
+  y: 1,
+  z: true
+};
+```
 
+Flowではundefinedのプロパティにアクセスするとエラーになる。
 
-
-
+```
+var obj: {x: string} = {x: "1"};
+obj.y // エラー
+```
 
 
 
