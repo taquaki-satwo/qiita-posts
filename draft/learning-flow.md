@@ -1,6 +1,6 @@
-# 速攻で Flow の書き方を学ぶ
+# 速攻で Flow の型注釈を学ぶ
 
-Flowの型注釈に関するドキュメントを速攻で読んで、速攻でまとめて、速攻で書き方を学びました。
+Flowのドキュメントを速攻で読んで、速攻でまとめて、速攻で型注釈を学びました。
 https://flow.org/en/docs/types/
 
 そこそこ時間かかりました。
@@ -110,11 +110,11 @@ function method(x: {y?: string}) {
   // ...
 }
 
-// 動作する
+// 動く
 method({y: undefined});
 method({});
 
-// しかし、nullはエラーになる
+// しかし、nullはエラー
 method({y: null});
 ```
 
@@ -125,26 +125,26 @@ function method(x?: string)  {
   // ...
 }
 
-// 動作する
+// 動く
 method(undefined);
 method();
 
-// しかし、nullはエラーになる
+// しかし、nullはエラー
 method(null);
 ```
 
 #### デフォルト引数
 
 ```:javascript
-function method(x: string = 'foo')  {
+function method(x: string = 'foo') {
   // ...
 }
 
-// 動作する
+// 動く
 method(undefined);
 method();
 
-// しかし、nullはエラーになる
+// しかし、nullはエラー
 method(null);
 ```
 
@@ -161,7 +161,7 @@ function method(x: 1) {
   // ...
 }
 
-// 動作する
+// 動く
 method(1);
 
 // エラー
@@ -177,7 +177,7 @@ function method(x: mixed) {
   // ...
 }
 
-// すべて動作する
+// すべて動く
 method('foo');
 method(1);
 method(null);
@@ -202,30 +202,30 @@ function method(x: mixed) {
 
 ### 3. Any型
 
-型チェックを動作させないようにできる。
-ランタイムエラーになりそうな記述でさえ通してしまうようになるので、可能な限り使用を控えたほうが良いとのこと。  
+Flowの型チェックをスルーできる。
+ランタイムエラーになりそうな記述でさえ通してしまうので、可能な限り使用を控えたほうが良いとのこと。  
 また、any型のオブジェクトを与えた場合、そのオブジェクトのプロパティや処理結果もany型と解釈されるようなので、適切にキャストしてあげないとコードがどんどんany型に侵食される。
 
 ```:javascript
-function fn(obj: any) /* 返り値がany型になっちゃう */ {
-  let foo /* プロパティもany型 */ = obj.foo;
-  let bar /* 演算結果もany型 */ = foo * 2;
-  return bar;
+function method(obj: any) /* 返り値がany型になっちゃう */ {
+  let a = obj.a; // プロパティもany型
+  let b = a * 2; // 演算結果もany型
+  return b;
 }
 
-let bar /* 外に漏洩したany型 */ = fn({ foo: 2 });
-let baz /* とまらないany型 */ = "baz:" + bar;
+let b = method({ a: 2 }); // 外に漏れちゃったany型
+let c = "c:" + b; // 止まらないany型
 ```
 
 ```
-function fn(obj: any) /* number型と推論される */ {
-  let foo: number = obj.foo; // キャストしてにany型を食い止める
-  let bar /* number型と推論される */ = foo * 2;
-  return bar;
+function method(obj: any) /* number型と推論される */ {
+  let a: number = obj.a; // キャストしてにany型を食い止める
+  let b = a * 2;
+  return b;
 }
 
-let bar /* number型と推論される */ = fn({ foo: 2 });
-let baz /* string型と推論される */ = "baz:" + bar;
+let b = method({ a: 2 }); // number型と推論される
+let c = "c:" + b; // string型と推論される
 ```
 
 ### 4. Maybe型
@@ -235,7 +235,7 @@ nullやundefinedを許容する場合 `?` を型の頭につける。
 ```:javascript
 function method(x: ?number) {...}
 
-// すべて動作する
+// すべて動く
 method(1);
 method(null);
 method(undefined);
@@ -266,22 +266,58 @@ function method(x: ?number) {
 
 ### 5. 変数の型
 
-```
-const a: number = 1;
-let b: string = '2';
-```
-
-変数の再代入時にFlowは型推論してくれる。
+#### const
 
 ```
-let x = 1;
-x = '1';
-
-// 動作する
-let y: string = x;
+const a = 1; // number型と推論される
+const b: number = 1; // 型注釈
 ```
 
-### 6. 関数の型
+#### let、var
+
+```
+let a = 1; // number型と推論される
+a = '1' ; // これは動く
+
+let b: number = 1;
+b = '1'; // 型を指定して違う型の値を代入するとエラー
+```
+
+#### 変数を別の変数へ代入する
+
+代入された変数の型は指定可能なものすべてになる
+
+```
+let a = 1;
+if (Math.random()) a = '1';
+if (Math.random()) a = 'true';
+ 
+let b: number | string | boolean = a; 
+```
+
+記述によっては、代入された変数の型が確実なものもある
+
+```
+let a = 1;
+let b: number = a;
+```
+
+処理を通すと型が把握できないこともある
+
+```
+let a = 1;
+
+function func(x) {
+  a = '1';
+  a = true;
+}
+
+func();
+
+let b: boolean = a; // エラー
+```
+
+### 6. 関数の型指定
 
 #### 関数宣言
 
@@ -357,23 +393,119 @@ function method(x: ?string): string {
 ### 7. オブジェクトの型指定
 
 ```
-var obj: {
-  x: string,
-  y: number,
-  z: boolean
+let obj: {
+  a: string,
+  b: number,
+  c: boolean
 } = {
-  x: "1",
-  y: 1,
-  z: true
+  a: "1",
+  b: 1,
+  c: true
 };
 ```
 
-Flowではundefinedのプロパティにアクセスするとエラーになる。
+undefinedのプロパティにアクセスするとエラーになる。
 
 ```
-var obj: {x: string} = {x: "1"};
-obj.y // エラー
+let obj: {a: string} = {a: "1"};
+obj.b // エラー
 ```
+
+#### Sealedオブジェクト
+
+プロパティを指定してオブジェクトを生成した場合、Sealedオブジェクトになる。  
+Flowはプロパティの型を認識してくれる。
+
+```
+let obj = {a: 1};
+
+let a: number = obj.a; // 動く
+let b: string = obj.a; // エラー
+```
+
+このオブジェクトはプロパティを追加するとエラーになる。
+
+```
+let obj = {a: 1};
+obj.b = 2; // エラー
+```
+
+#### Unsealedオブジェクト
+
+プロパティを指定せずにオブジェクトを生成した場合、Unsealedオブジェクトになる。  
+これはプロパティを追加してもエラーにならない。
+
+```
+let obj = {};
+obj.a = 1; // 動く
+```
+
+#### オブジェクトのプロパティを変数へ代入する
+
+変数の型は指定可能なものすべてになる
+
+```
+let obj = {};
+
+if (Math.random()) obj.a = 1;
+if (Math.random()) obj.a = '1';
+
+let b: number | string = obj.a; 
+```
+
+記述によっては、代入された変数の型が確実なものもある
+
+```
+let obj = {};
+obj.a = 1;
+obj.a = '1';
+
+let b: string = obj.a;
+```
+
+仕様上、定義されていないプロパティを変数に代入できてしまう。  
+これは将来改善される可能性があるとのこと。
+
+```
+let obj = {};
+
+let b: string = obj.a;
+``` 
+
+#### オブジェクトを厳密に定義する
+
+余分なプロパティがあってもエラーにならない。
+
+```
+let obj: {a: number} = {a: 1, b: '1'};
+```
+
+厳密にするには以下のように記述する。
+
+```
+let obj: {|a: number|} = {a: 1, b: '1'}; // エラー
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
