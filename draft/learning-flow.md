@@ -486,7 +486,25 @@ let obj: {a: number} = {a: 1, b: '1'};
 let obj: {|a: number|} = {a: 1, b: '1'}; // エラー
 ```
 
+#### Mapオブジェクト
 
+Mapオブジェクトのキーを型定義するためには、 `インデクサプロパティ` を使用する。
+
+```
+let obj: {[string]: number} = {};
+obj['foo'] = 1;
+let foo: number = o['foo'];
+```
+
+インデクサに名前をつける。
+
+```
+let obj: {[id: number]: string} = {};
+obj[1] = 'foo';
+obj[2] = 'bar';
+```
+
+　
 
 
 
