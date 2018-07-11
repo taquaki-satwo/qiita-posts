@@ -266,20 +266,34 @@ function method(x: ?number) {
 
 ### 5. 変数の型
 
+constの型推論と型注釈
+
 ```
-const a: number = 1;
-let b: string = '2';
+const x = 1; // number型と推論される
+const y: number = 1;
 ```
 
-変数の再代入時にFlowは型推論してくれる。
+let（var）の型推論
+
+```
+let x = 1; // number型と推論される
+let y: number = x; // 動く
+let z: string = x; // エラー
+
+let foo = 2;
+```
+
+let（var）の型注釈
 
 ```
 let x = 1;
-x = '1';
+x = "1"; // 動く
 
-// 動作する
-let y: string = x;
+let y: number = 1;
+y = "1"; // エラーになる
 ```
+
+
 
 ### 6. 関数の型指定
 
@@ -403,16 +417,9 @@ obj.y = 2; // エラー
 var obj = {};
 obj.x = 1; // 動く
 var foo: number = obj.x;
-
-// 
-if (Math.random()) {
-  obj.y = '1';
-} else {
-  obj.y = true;
-}
-var bar
-
 ```
+
+
 
 
 
