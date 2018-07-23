@@ -110,7 +110,7 @@ func(2 as any); // 2
 
 ```
 class User {
-  constructor(private name: string, private age: number) {
+  constructor(public name: string, public age: number) {
   }
 
   get userName(): string {
@@ -120,22 +120,86 @@ class User {
     this.age = num;
   }
 
-  say(): string {
-    return 'Hello ' + this.name;
+  profile(): string {
+    return this.name + ": " + this.age;
   }
 }
 
 let man = new User('Taro', 20);
+man.userAge = 21;
 
-console.log(man.say()); // Hello Taro
+console.log(man.profile()); // Taro: 21
+```
+
+### 継承
+
+```
+class Employee extends User {
+	constructor(public position: string) {
+		super('Jiro', 21)
+	}
+
+	profile(): string {
+		return super.profile() + ', ' + this.position;
+	}
+}
+
+var man = new Employee('Engineer');
+
+console.log(man.profile()); // Jiro: 21, Engineer
+```
+
+### 抽象クラス
+
+```
+abstract class Person {
+  abstract greeting(stg: string): string;
+}
+
+class User extends Person {
+  constructor(public name: string) {
+    super()
+  }
+
+  greeting(stg: string = 'Helo'): string {
+    return stg + ' ' + this.name;
+  }
+}
+
+let man = new User('Taro');
+console.log(man.greeting()); // Hello Taro
+```
+
+### インターフェース
+
+```
+interface User {
+  name: string;
+  age: number;
+  profile(): string;
+}
+
+class Employee implements User {
+  constructor(public name: string, public age: number) {
+  }
+
+  profile(): string {
+    return this.name + ": " + this.age;
+  }
+}
 ```
 
 
+## オブジェクト型
 
 
+###　プロパティシグネチャ
 
-
-
+```
+let obj: {
+  name: string,
+  age: number,
+}
 
 
 
