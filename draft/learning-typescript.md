@@ -144,7 +144,7 @@ class Employee extends User {
 	}
 }
 
-var man = new Employee('Engineer');
+var Employee = new Employee('Engineer');
 
 console.log(man.profile()); // Jiro: 21, Engineer
 ```
