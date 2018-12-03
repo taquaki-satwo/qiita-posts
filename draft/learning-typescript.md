@@ -200,6 +200,103 @@ let obj: {
   name: string,
   age: number,
 }
+```
+
+### メソッドシグネチャ
+
+```
+let obj: {
+  func(a: string): string;
+}
+```
+
+### コールシグネチャ
+
+```
+let obj: {
+  (a: string): string;
+}
+```
+
+### コンストラクタシグネチャ
+
+```
+let obj: {
+  new (name: string): User;
+}
+
+Class User {
+  constructor
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
