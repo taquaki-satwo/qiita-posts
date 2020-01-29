@@ -9,7 +9,7 @@ git ignore boilerplatesの略。
 
 * Mac OS環境
 
-```
+```bash
 brew update
 brew insatll gibo 
 ```
@@ -18,7 +18,7 @@ brew insatll gibo
 
 [Scoop](http://scoop.sh/) を使用する
 
-```
+```bash
 scoop update
 scoop install gibo
 ```
@@ -27,10 +27,10 @@ scoop install gibo
 
 github.com/github/gitignore を元にgiboを初期化する
 
-```
-gibo --upgrade
-gibo --version
-gibo 1.0.6 by Simon Whitaker <sw@netcetera.org>
+```bash
+gibo update
+gibo version
+gibo 2.2.3 by Simon Whitaker <sw@netcetera.org>
 https://github.com/simonwhitaker/gibo
 ```
 
@@ -38,14 +38,14 @@ https://github.com/simonwhitaker/gibo
 
 NodeのプロジェクトでエディタはVS Codeの場合。
 
-```
-gibo Node VisualStudioCode >> .gitignore
+```bash
+gibo dump Node VisualStudioCode >> .gitignore
 ```
 
 こんな感じのgitignoreファイルができます。
 
-```
-### https://raw.github.com/github/gitignore/9e018473e80cf262d25841facbbd69e7f1a4ef41/Node.gitignore
+```dot:.gitignore
+### https://raw.github.com/github/gitignore/7ab549fcae8269fdd4004065470176f829d88200/Node.gitignore
 
 # Logs
 logs
@@ -53,6 +53,10 @@ logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+lerna-debug.log*
+
+# Diagnostic reports (https://nodejs.org/api/report.html)
+report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
 # Runtime data
 pids
@@ -65,11 +69,12 @@ lib-cov
 
 # Coverage directory used by tools like istanbul
 coverage
+*.lcov
 
 # nyc test coverage
 .nyc_output
 
-# Grunt intermediate storage (http://gruntjs.com/creating-plugins#storing-task-files)
+# Grunt intermediate storage (https://gruntjs.com/creating-plugins#storing-task-files)
 .grunt
 
 # Bower dependency directory (https://bower.io/)
@@ -85,14 +90,23 @@ build/Release
 node_modules/
 jspm_packages/
 
-# Typescript v1 declaration files
+# TypeScript v1 declaration files
 typings/
+
+# TypeScript cache
+*.tsbuildinfo
 
 # Optional npm cache directory
 .npm
 
 # Optional eslint cache
 .eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
 
 # Optional REPL history
 .node_repl_history
@@ -105,66 +119,282 @@ typings/
 
 # dotenv environment variables file
 .env
+.env.test
 
-# next.js build output
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+
+# Next.js build output
 .next
 
+# Nuxt.js build / generate output
+.nuxt
+dist
 
-### https://raw.github.com/github/gitignore/9e018473e80cf262d25841facbbd69e7f1a4ef41/Global/VisualStudioCode.gitignore
+# Gatsby files
+.cache/
+# Comment in the public line in if your project uses Gatsby and not Next.js
+# https://nextjs.org/blog/next-9-1#public-directory-support
+# public
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+
+### https://raw.github.com/github/gitignore/7ab549fcae8269fdd4004065470176f829d88200/Global/VisualStudioCode.gitignore
 
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+*.code-workspace
 ```
 
 ## giboで設定できる言語や環境など
 
-```
-gibo --list
-=== Languages ===
-
-Actionscript		DM			Jboss			OracleForms		SketchUp
-Ada			Drupal			Jekyll			Packer			Smalltalk
-Agda			Eagle			Joomla			Perl			Stella
-Android			Elisp			Julia			Phalcon			SugarCRM
-AppceleratorTitanium	Elixir			KiCad			PlayFramework		Swift
-AppEngine		Elm			Kohana			Plone			Symfony
-ArchLinuxPackages	EPiServer		Kotlin			Prestashop		SymphonyCMS
-Autotools		Erlang			LabVIEW			Processing		Terraform
-C++			ExpressionEngine	Laravel			PureScript		TeX
-C			ExtJs			Leiningen		Python			Textpattern
-CakePHP			Fancy			LemonStand		Qooxdoo			TurboGears2
-CFWheels		Finale			Lilypond		Qt			Typo3
-ChefCookbook		ForceDotCom		Lithium			R			Umbraco
-Clojure			Fortran			Lua			Rails			Unity
-CMake			FuelPHP			Magento			RhodesRhomobile		UnrealEngine
-CodeIgniter		Gcov			Maven			ROS			VisualStudio
-CommonLisp		GitBook			Mercury			Ruby			VVVV
-Composer		Go			MetaProgrammingSystem	Rust			Waf
-Concrete5		Gradle			Nanoc			Sass			WordPress
-Coq			Grails			Nim			Scala			Xojo
-CraftCMS		GWT			Node			Scheme			Yeoman
-CUDA			Haskell			Objective-C		SCons			Yii
-D			Idris			OCaml			Scrivener		ZendFramework
-Dart			IGORPro			Opa			Sdcc			Zephir
-Delphi			Java			OpenCart		SeamGen
-
-=== Global ===
-
-Anjuta			Eclipse			Lazarus			Ninja			TextMate
-Ansible			EiffelStudio		LibreOffice		NotepadPP		TortoiseGit
-Archives		Emacs			Linux			Otto			Vagrant
-Bazaar			Ensime			LyX			Redcar			Vim
-BricxCC			Espresso		macOS			Redis			VirtualEnv
-Calabash		FlexBuilder		Matlab			SBT			VisualStudioCode
-Cloud9			GPG			Mercurial		SlickEdit		WebMethods
-CodeKit			JDeveloper		MicrosoftOffice		Stata			Windows
-CVS			JEnv			ModelSim		SublimeText		Xcode
-DartEditor		JetBrains		Momentics		SVN			XilinxISE
-Dreamweaver		Kate			MonoDevelop		SynopsysVCS
-Dropbox			KDevelop4		NetBeans		Tags
+```bash
+Actionscript
+Ada
+Agda
+Android
+AppceleratorTitanium
+AppEngine
+ArchLinuxPackages
+Autotools
+C++
+C
+CakePHP
+CFWheels
+ChefCookbook
+Clojure
+CMake
+CodeIgniter
+CommonLisp
+Bazel
+InforCMS
+Kentico
+Phoenix
+AtmelStudio
+esp-idf
+IAR_EWARM
+Exercism
+GNOMEShellExtension
+Hugo
+JBoss4
+JBoss6
+Cordova
+Meteor
+NWjs
+Vue
+Snap
+Logtalk
+OpenSSL
+Bitrix
+CodeSniffer
+Drupal7
+Magento1
+Magento2
+Pimcore
+ThinkPHP
+Puppet
+JupyterNotebooks
+Nikola
+Racket
+Red
+Splunk
+Xilinx
+Composer
+Concrete5
+Coq
+CraftCMS
+CUDA
+D
+Dart
+Delphi
+DM
+Drupal
+Eagle
+Elisp
+Elixir
+Elm
+EPiServer
+Erlang
+ExpressionEngine
+ExtJs
+Fancy
+Finale
+ForceDotCom
+Fortran
+FuelPHP
+Gcov
+GitBook
+Anjuta
+Ansible
+Archives
+Backup
+Bazaar
+BricxCC
+Calabash
+Cloud9
+CodeKit
+CVS
+DartEditor
+Diff
+Dreamweaver
+Dropbox
+Eclipse
+EiffelStudio
+Emacs
+Ensime
+Espresso
+FlexBuilder
+GPG
+Images
+JDeveloper
+JEnv
+JetBrains
+Kate
+KDevelop4
+Lazarus
+LibreOffice
+Linux
+LyX
+macOS
+MATLAB
+Mercurial
+MicrosoftOffice
+ModelSim
+Momentics
+MonoDevelop
+NetBeans
+Ninja
+NotepadPP
+Octave
+Otto
+Patch
+PSoCCreator
+PuTTY
+Redcar
+Redis
+SBT
+SlickEdit
+Stata
+SublimeText
+SVN
+SynopsysVCS
+Tags
+TextMate
+TortoiseGit
+Vagrant
+Vim
+VirtualEnv
+Virtuoso
+VisualStudioCode
+WebMethods
+Windows
+Xcode
+XilinxISE
+Go
+Godot
+Gradle
+Grails
+GWT
+Haskell
+Idris
+IGORPro
+Java
+JBoss
+Jekyll
+JENKINS_HOME
+Joomla
+Julia
+KiCad
+Kohana
+Kotlin
+LabVIEW
+Laravel
+Leiningen
+LemonStand
+Lilypond
+Lithium
+Lua
+Magento
+Maven
+Mercury
+MetaProgrammingSystem
+Nanoc
+Nim
+Node
+Objective-C
+OCaml
+Opa
+OpenCart
+OracleForms
+Packer
+Perl
+Perl6
+Phalcon
+PlayFramework
+Plone
+Prestashop
+Processing
+PureScript
+Python
+Qooxdoo
+Qt
+R
+Rails
+RhodesRhomobile
+ROS
+Ruby
+Rust
+Sass
+Scala
+Scheme
+SCons
+Scrivener
+Sdcc
+SeamGen
+SketchUp
+Smalltalk
+Stella
+SugarCRM
+Swift
+Symfony
+SymphonyCMS
+Terraform
+TeX
+Textpattern
+TurboGears2
+Typo3
+Umbraco
+Unity
+UnrealEngine
+VisualStudio
+VVVV
+Waf
+WordPress
+Xojo
+Yeoman
+Yii
+ZendFramework
+Zephir
 ```
 
 ## 参考
