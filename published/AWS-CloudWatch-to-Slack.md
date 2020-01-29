@@ -112,7 +112,7 @@ aws cloudwatch set-alarm-state --alarm-name "ec2-CPUUtilization-check" --state-v
 |---|---|
 | --alarm-name | アラーム名 |
 | --state-value | ステータス |
-| --state-reason | アラートの説明 |
+| --state-reason | アラームの説明 |
 
 ## 3. Incoming WebHooksの設定
 
