@@ -8,7 +8,7 @@ EC2インスタンスのCPU使用率が決められた値以上になったらAW
 3. Incoming WebHooksの設定
 4. KMSの設定
 5. Lambdaの設定
-6. IAMロール作成
+6. IAMロールの修正
 
 以下特に記述がないものはデフォルト設定。
 
@@ -183,7 +183,7 @@ Lambda -> 関数 -> 関数の作成
 
 IAM -> ロール -> cloudwatch-alerm-to-slack -> AWSLambdaKMSExecutionRole-\*\*\*\*\*\*\*\*-\*\*\*\*-\*\*\*\*-\*\*\*\*-\*\*\*\*\*\*\*\*\*\*\*\* -> ポリシーの編集 -> JSON
 
-```
+```JSON
 {
     "Version": "2012-10-17",
     "Statement": [
@@ -205,8 +205,8 @@ IAM -> ロール -> cloudwatch-alerm-to-slack -> AWSLambdaKMSExecutionRole-\*\*\
 
 ### 通知テスト
 
-```
-aws cloudwatch set-alarm-state --alarm-name "ec2-CPUUtilization-check" --state-value ALARM --state-reason "alarm-test" --profile <事前準備で設定したProfile名>
+```bash
+aws cloudwatch set-alarm-state --alarm-name "ec2-CPUUtilization-check" --state-value ALARM --state-reason "alarm-test" --profile <Profile名>
 ```
 
 <img width="549" alt="img.png" src="https://qiita-image-store.s3.ap-northeast-1.amazonaws.com/0/45634/c7a07647-a0d2-3c8f-ed8c-5ba8190d6ea1.png">
